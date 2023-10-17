@@ -1,0 +1,62 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+	//id 'org.springframework.boot' version '2.7.16'
+	id 'org.springframework.boot' version '3.1.4'
+	id 'io.spring.dependency-management' version '1.1.3'
+	id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.8.22'
+	id("com.github.johnrengelman.processes") version "0.5.0"
+	id("org.springdoc.openapi-gradle-plugin") version "1.7.0"
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Spring Boot
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+	// Problem Handling
+//	implementation("org.zalando:problem-spring-webflux:0.27.0")
+	implementation("org.zalando:problem-spring-webflux:0.29.1")
+	implementation("org.zalando:jackson-datatype-problem:0.27.1")
+
+	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+	implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
+	implementation 'org.jetbrains.kotlin:kotlin-reflect'
+	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-reactor'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+
+	// Coroutines
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+//	implementation("jakarta.json:jakarta.json-api:2.0.1")
+//	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	// Swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webflux-api:2.2.0")
+//	implementation("org.springdoc:springdoc-openapi-webflux-ui:1.7.0")
+
+
+}
+
+tasks.withType(KotlinCompile) {
+	kotlinOptions {
+		freeCompilerArgs += '-Xjsr305=strict'
+		jvmTarget = '17'
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
